@@ -27,3 +27,9 @@ PREFERRED QUALIFICATIONS
 · Experience providing technical leadership and mentoring other engineers
 · Strong ability to interact, communicate, present, and influence within multiple levels of the organization
 · Strong organizational skills with ability to balance competing priorities
+
+
+
+
+https://leetcode.com/discuss/interview-question/system-design/295671/Amazon-or-Data-Engineer-Role-or-Database-Design-Question
+https://prepfully.com/interview-guides/amazon-data-engineer
