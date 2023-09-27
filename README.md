@@ -11,3 +11,8 @@ grouped_df = (filtered_df.groupBy("asofdate")
 
 difference_df = grouped_df.withColumn("difference", 
                                       grouped_df["xrefid_count"] - grouped_df["distinct_xrefid_count"])
+
+
+spark.conf.set("spark.sql.repl.eagerEval.enabled", True) # Enables the display of DataFrames in a readable format
+spark.conf.set("spark.sql.repl.eagerEval.truncate", 0)  # Disables truncation of the content
+spark.conf.set("spark.sql.repl.eagerEval.maxNumRows", -1) # Display all rows without a limit
