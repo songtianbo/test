@@ -13,12 +13,18 @@ difference_df = grouped_df.withColumn("difference",
                                       grouped_df["xrefid_count"] - grouped_df["distinct_xrefid_count"])
 from pyspark.sql import functions as F
 
-# Group by 'process_date' and aggregate by count of 'cust_ref_id' for each table
-doom_grouped = doom.groupBy("process_date").agg(F.count("cust_ref_id").alias("doom_count"))
-dumas_grouped = dumas.groupBy("process_date").agg(F.count("cust_ref_id").alias("dumas_count"))
+from pyspark.sql import functions as F
 
-# Left join dumas with doom on 'process_date' to compare counts
-comparison_df = dumas_grouped.join(doom_grouped, on="process_date", how="left").fillna(0)
+# Filter rows based on process_dt after '2022-11-17'
+doom_filtered = doom.filter(F.col("process_dt") > "2022-11-17")
+dumas_filtered = dumas.filter(F.col("process_dt") > "2022-11-17")
+
+# Group by 'process_dt' and aggregate by count of 'cust_ref_id' for each table
+doom_grouped = doom_filtered.groupBy("process_dt").agg(F.count("cust_ref_id").alias("doom_count"))
+dumas_grouped = dumas_filtered.groupBy("process_dt").agg(F.count("cust_ref_id").alias("dumas_count"))
+
+# Left join dumas with doom on 'process_dt' to compare counts
+comparison_df = dumas_grouped.join(doom_grouped, on="process_dt", how="left").fillna(0)
 
 # Add a comparison column
 comparison_df = comparison_df.withColumn("difference", F.col("dumas_count") - F.col("doom_count"))
